@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "47psOBijlgNAepom4mmQWHG8m6zY3BepcCxeZ+0nvtI=",
+  "Source": "OrderCollectorAPI",
+  "BasePath": "_content/OrderCollectorAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
