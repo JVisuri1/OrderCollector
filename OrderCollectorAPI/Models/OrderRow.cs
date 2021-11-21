@@ -1,14 +1,23 @@
-﻿namespace OrderCollectorAPI.Models
+﻿using Newtonsoft.Json;
+
+namespace OrderCollectorAPI.Models
 {
     public class OrderRow
     {
-        public int id { get; set; }
-        public string code { get; set; }
-        public string product { get; set; }
-        public string description { get; set; }
-        public string supplierCode { get; set; }
-        public decimal amount { get; set; }
-        public decimal unitPrice { get; set; }
-        public string shelf { get; set; }
+        public int Id { get; set; }
+        [JsonProperty("code")]
+        public string Code { get; set; }
+        [JsonProperty("product")]
+        public string Product { get; set; }
+        [JsonProperty("description")]
+        public string Description { get; set; }
+        [JsonProperty("suppliercode")]
+        public string SupplierCode { get; set; }
+        [JsonProperty("qty")]
+        public decimal Amount { get; set; }
+        [JsonProperty("unit_price")]
+        public decimal UnitPrice { get; set; }
+        [JsonProperty("shelf_pos")]
+        public string Shelf { get; set; }
     }
 }

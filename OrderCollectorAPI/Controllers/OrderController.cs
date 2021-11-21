@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using OrderCollectorAPI.Data;
+using OrderCollectorAPI.Models;
+using OrderCollectorAPI.Services;
 
 namespace OrderCollectorAPI.Controllers
 {
@@ -7,21 +10,27 @@ namespace OrderCollectorAPI.Controllers
     public class OrderController : ControllerBase
     {
 
-        public OrderController()
-        {
+        public readonly IOrderService _orderService;
 
+        public readonly BaseContext _baseContext;
+
+        public OrderController(IOrderService orderService, BaseContext context)
+        {
+            _orderService = orderService;
+            _baseContext = context;
         }
 
         [HttpGet("GetOrders")]
         public IEnumerable<Order> Get()
         {
-            return new List<Order>() { new Order() { id = 1, deliveryDate = DateTime.Now} };
+            return _baseContext.orders;
         }
 
         [HttpGet("RefreshOrders")]
-        public ActionResult RefreshOrders()
+        public async Task<ActionResult> RefreshOrders()
         {
-            return Ok(5);
+            var resultCount = await _orderService.ImportNewOrders();
+            return Ok(resultCount);
         }
     }
 }

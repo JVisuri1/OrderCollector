@@ -1,20 +1,30 @@
+using Newtonsoft.Json;
 using OrderCollectorAPI.Models;
 
-namespace OrderCollectorAPI
+namespace OrderCollectorAPI.Models
 {
     public class Order
     {
-        public int id { get; set; }
-
-        public int customerId { get; set; }
-        public string customerName { get; set; }
-
-        public string invoiceAddress { get; set; }
-        public string deliveryAddress { get; set; }
-        public DateTime deliveryDate { get; set; }
-        public string seller { get; set; }
-        public decimal orderPrice { get; set; }
-
-        public List<OrderRow> orderrows { get; set; }
+        public int Id { get; set; }
+        [JsonProperty("orderid")]
+        public int OrderId { get; set; }
+        [JsonProperty("customerid")]
+        public int CustomerId { get; set; }
+        [JsonProperty("customer")]
+        public string CustomerName { get; set; }
+        [JsonProperty("invaddr")]
+        public string InvoiceAddress { get; set; }
+        [JsonProperty("delivaddr")]
+        public string DeliveryAddress { get; set; }
+        [JsonProperty("deliverydate")]
+        public DateTime DeliveryDate { get; set; }
+        [JsonProperty("respsalesperson")]
+        public string SellerName { get; set; }
+        [JsonProperty("comment")]
+        public string OrderComment { get; set; }
+        [JsonProperty("totalprice")]
+        public decimal OrderPrice { get; set; }
+        [JsonProperty("products")]
+        public List<OrderRow> OrderRows { get; set; }
     }
 }
