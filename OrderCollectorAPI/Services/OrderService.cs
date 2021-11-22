@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using OrderCollectorAPI.Data;
 using OrderCollectorAPI.Models;
@@ -41,6 +42,16 @@ namespace OrderCollectorAPI.Services
 
                 return newOrders.Count;
             }
+        }
+
+        public async Task<List<Order>> GetUncollectedOrdersAsync()
+        {
+            return await _context.orders.Where(o => o.Collected == false).ToListAsync();
+        }
+
+        public async Task<Order> GetOrderByIdAsync(int Id)
+        {
+            return await _context.orders.Where(o => o.Id == Id).Include(o => o.OrderRows).FirstOrDefaultAsync();
         }
     }
 }

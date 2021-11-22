@@ -12,6 +12,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "OrderCollectorCORS", builder =>
+    {
+        builder.AllowAnyHeader();
+        builder.AllowAnyOrigin();
+    });
+});
+
 
 builder.Services.AddDbContext<BaseContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("primary")));
@@ -26,6 +35,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("OrderCollectorCORS");
 
 app.UseHttpsRedirection();
 

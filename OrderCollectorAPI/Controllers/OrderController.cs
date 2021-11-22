@@ -32,5 +32,17 @@ namespace OrderCollectorAPI.Controllers
             var resultCount = await _orderService.ImportNewOrders();
             return Ok(resultCount);
         }
+
+        [HttpGet("GetUncollectedOrders")]
+        public async Task<List<Order>> GetUncollectedOrders()
+        {
+            return await _orderService.GetUncollectedOrdersAsync();
+        }
+
+        [HttpGet("GetOrderById/{id}")]
+        public async Task<Order> GetOrder(int id)
+        {
+            return await _orderService.GetOrderByIdAsync(id);
+        }
     }
 }

@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using OrderCollectorAPI.Models;
+using System.ComponentModel;
 
 namespace OrderCollectorAPI.Models
 {
@@ -24,6 +25,8 @@ namespace OrderCollectorAPI.Models
         public string OrderComment { get; set; }
         [JsonProperty("totalprice")]
         public decimal OrderPrice { get; set; }
+        [DefaultValue(false)]
+        public bool Collected { get; set; }
         [JsonProperty("products")]
         public List<OrderRow> OrderRows { get; set; }
     }
