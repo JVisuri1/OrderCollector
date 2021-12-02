@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrderCollectorAPI.Data;
 using OrderCollectorAPI.Models;
@@ -5,8 +6,9 @@ using OrderCollectorAPI.Services;
 
 namespace OrderCollectorAPI.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class OrderController : ControllerBase
     {
 

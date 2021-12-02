@@ -12,5 +12,9 @@ namespace OrderCollectorAPI.Data
         public DbSet<Order> orders { get; set; }
 
         public DbSet<OrderRow> order_rows { get; set; }
+
+        public DbSet<User> users { get; set; }
+
+        public DbSet<UserLogin> user_logins { get; set; }
     }
 }

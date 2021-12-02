@@ -1,10 +1,14 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OrderCollectorAPI.Models
 {
     public class OrderRow
     {
         public int Id { get; set; }
+        [ForeignKey("orders")]
+        public int orderId { get; set; }
+
         [JsonProperty("code")]
         public string Code { get; set; }
         [JsonProperty("product")]

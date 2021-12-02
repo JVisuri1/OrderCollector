@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OrderCollectorAPI.Migrations
 {
-    public partial class order_init : Migration
+    public partial class user_init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,11 +23,26 @@ namespace OrderCollectorAPI.Migrations
                     DeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SellerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderComment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    OrderPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Collected = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_orders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -36,29 +51,57 @@ namespace OrderCollectorAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    orderId = table.Column<int>(type: "int", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Product = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SupplierCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Shelf = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
+                    Shelf = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_order_rows", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_order_rows_orders_OrderId",
-                        column: x => x.OrderId,
+                        name: "FK_order_rows_orders_orderId",
+                        column: x => x.orderId,
                         principalTable: "orders",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_logins",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EncryptedPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_logins", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_user_logins_users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_order_rows_OrderId",
+                name: "IX_order_rows_orderId",
                 table: "order_rows",
-                column: "OrderId");
+                column: "orderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_logins_UserId",
+                table: "user_logins",
+                column: "UserId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -67,7 +110,13 @@ namespace OrderCollectorAPI.Migrations
                 name: "order_rows");
 
             migrationBuilder.DropTable(
+                name: "user_logins");
+
+            migrationBuilder.DropTable(
                 name: "orders");
+
+            migrationBuilder.DropTable(
+                name: "users");
         }
     }
 }

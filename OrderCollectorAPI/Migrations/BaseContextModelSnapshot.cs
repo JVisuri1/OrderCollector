@@ -89,9 +89,6 @@ namespace OrderCollectorAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Product")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -107,23 +104,91 @@ namespace OrderCollectorAPI.Migrations
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("orderId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("orderId");
 
                     b.ToTable("order_rows");
+                });
+
+            modelBuilder.Entity("OrderCollectorAPI.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("users");
+                });
+
+            modelBuilder.Entity("OrderCollectorAPI.Models.UserLogin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("EncryptedPassword")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("user_logins");
                 });
 
             modelBuilder.Entity("OrderCollectorAPI.Models.OrderRow", b =>
                 {
                     b.HasOne("OrderCollectorAPI.Models.Order", null)
                         .WithMany("OrderRows")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("orderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OrderCollectorAPI.Models.UserLogin", b =>
+                {
+                    b.HasOne("OrderCollectorAPI.Models.User", null)
+                        .WithOne("Login")
+                        .HasForeignKey("OrderCollectorAPI.Models.UserLogin", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("OrderCollectorAPI.Models.Order", b =>
                 {
                     b.Navigation("OrderRows");
+                });
+
+            modelBuilder.Entity("OrderCollectorAPI.Models.User", b =>
+                {
+                    b.Navigation("Login")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
