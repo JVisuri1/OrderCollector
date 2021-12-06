@@ -40,7 +40,7 @@ namespace OrderCollectorAPI.Services
 
         public string GetUserEmail()
         {
-            return _httpContext.User.Claims.FirstOrDefault(o => o.Type == "email").Value;
+            return _httpContext.User.FindFirst(ClaimTypes.Email)?.Value;
         }
 
         public async Task<User> GetCurrentUser()

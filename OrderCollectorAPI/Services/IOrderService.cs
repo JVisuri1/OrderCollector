@@ -6,7 +6,7 @@ namespace OrderCollectorAPI.Services
     {
         public Task<int> ImportNewOrders();
 
-        public Task<List<Order>> GetUncollectedOrdersAsync();
+        public Task<List<Order>> GetUncollectedOrdersPagedAsync(int page, int pageSize);
         public Task<Order> GetOrderByIdAsync(int id);
     }
 }

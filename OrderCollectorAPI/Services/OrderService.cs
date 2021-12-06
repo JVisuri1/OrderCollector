@@ -44,9 +44,9 @@ namespace OrderCollectorAPI.Services
             }
         }
 
-        public async Task<List<Order>> GetUncollectedOrdersAsync()
+        public async Task<List<Order>> GetUncollectedOrdersPagedAsync(int page, int pageSize)
         {
-            return await _context.orders.Where(o => o.Collected == false).ToListAsync();
+            return await _context.orders.Where(o => o.Collected == false).Take(pageSize).Skip(page * pageSize -1).ToListAsync();
         }
 
         public async Task<Order> GetOrderByIdAsync(int Id)

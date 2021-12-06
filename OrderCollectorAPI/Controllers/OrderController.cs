@@ -6,7 +6,7 @@ using OrderCollectorAPI.Services;
 
 namespace OrderCollectorAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class OrderController : ControllerBase
@@ -36,9 +36,9 @@ namespace OrderCollectorAPI.Controllers
         }
 
         [HttpGet("GetUncollectedOrders")]
-        public async Task<List<Order>> GetUncollectedOrders()
+        public async Task<List<Order>> GetUncollectedOrders(int page, int pageSize)
         {
-            return await _orderService.GetUncollectedOrdersAsync();
+            return await _orderService.GetUncollectedOrdersPagedAsync(page, pageSize);
         }
 
         [HttpGet("GetOrderById/{id}")]

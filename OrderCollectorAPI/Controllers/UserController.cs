@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OrderCollectorAPI.Data;
 using OrderCollectorAPI.Models;
@@ -6,6 +7,7 @@ using OrderCollectorAPI.Services;
 
 namespace OrderCollectorAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -25,6 +27,7 @@ namespace OrderCollectorAPI.Controllers
             return await _userService.GetCurrentUser();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("register")]
         public async Task<bool> CreateNewUser(Login login)
