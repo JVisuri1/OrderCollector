@@ -22,7 +22,7 @@ namespace OrderCollectorAPI.Models
         [JsonProperty("respsalesperson")]
         public string SellerName { get; set; }
         [JsonProperty("comment")]
-        public string OrderComment { get; set; }
+        public string OrderComment { get; set; } = "";
         [JsonProperty("totalprice")]
         public decimal OrderPrice { get; set; }
         [DefaultValue(false)]

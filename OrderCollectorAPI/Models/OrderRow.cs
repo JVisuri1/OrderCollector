@@ -23,6 +23,6 @@ namespace OrderCollectorAPI.Models
         public decimal UnitPrice { get; set; }
         [JsonProperty("shelf_pos")]
         public string Shelf { get; set; }
-        public string CollectorComment { get; set; }
+        public string CollectorComment { get; set; } = string.Empty;
     }
 }
